@@ -1,85 +1,92 @@
-Juno
+Juno - Tabular Data gone crazy.
 
-The README is used to introduce the module and provide instructions on
-how to install the module, any machine dependencies it may have (for
-example C compilers and installed libraries) and any other information
-that should be provided before the module is installed.
+Create matrices from scratch or using DBIx as a data backend. Rows and Columns
+can be transposed (with logical limitations). Data can be sectioned by header
+groupings, rows and columns can be merged or split as desired. Cells can be
+spanned across rows and columns. The content of each cell can be defined as 
+anything from a simple string or number or an href, a complete form, or image
+or whatever is desired.
 
-A README file is required for CPAN modules since CPAN extracts the README
-file from a module distribution so that people browsing the archive
-can use it to get an idea of the module's uses. It is usually a good idea
-to provide version information here so that people can decide whether
-fixes for the module are worth downloading.
+Once a Juno table has been created it can be manipulated in a multitude of ways
+and then output to one of the provided formats (html, xslx, pdf, json) or a
+custom format of your own creation. Juno allows for complex tabular data
+presentations to be dynamically generated, and rigorously tested.
 
+The HTML and PDF output formats are template driven (Text::Template::Compiled
+and XSLFO) and can be heavily customized/modified without any perl code changes.
 
-INSTALLATION
+Due to the nature of the problems Juno is attempting to solve it can be
+difficult (for me) to describe, so... examples!
 
-To install this module, run the following commands:
+This is a sample of HTML that Juno creates with ease. I work in the film
+industry so I'll be using film data (fake) for all my examples.
 
-	perl Makefile.PL
-	make
-	make test
-	make install
+<style>
+table {
+    border-spacing: 0px;
+}
 
-SUPPORT AND DOCUMENTATION
+table tbody td, table tfoot td {
+    border-bottom: 1px solid #000;
+}
 
-After installing, you can find documentation for this module with the
-perldoc command.
+.separator {
+    border-left: 1px solid #000;
+}
+</style>
+<table>
+  <thead>
+    <tr> <td>Id</td> <td>Name</td>          <td>Amount</td> <td>Owner</td>        <td>Cume</td>    </tr>
+  </thead>
+  <tbody>
+    <tr> <td>1</td>  <td>Goonies</td>       <td>82347</td>  <td>Disney</td>       <td>1237123</td> </tr>
+    <tr> <td>2</td>  <td>Ride Along</td>    <td>8723</td>   <td></td>             <td>87234</td>   </tr>
+    <tr> <td>3</td>  <td>Inception</td>     <td>854</td>    <td>Sony</td>         <td>9487</td>    </tr>
+    <tr> <td>4</td>  <td>Harry Potter</td>  <td>100</td>    <td>Warner Bros.</td> <td>1000</td>    </tr>
+    <tr> <td>5</td>  <td>Indiana Jones</td> <td>18</td>     <td>Disney</td>       <td>2847</td>    </tr>
+  </tbody>
+  <tfoot>
+    <tr>  <td></td>  <td></td>              <td>92042</td>  <td></td>             <td>1337691</td> </tr>
+  </tfoot>
+</table>
 
-    perldoc Juno
+Now this table is simple and easy, any can be auto generated many times over by
+many different tools. Now lets add a grouping to the header row with some
+visual lines through the columns.
 
-You can also look for information at:
+<table>
+  <thead>
+    <tr> <td>Id</td> <td class="separator">Name</td>          <td class="separator">Amount</td> <td>Owner</td>        <td>Cume</td>    </tr>
+  </thead>
+  <tbody>
+    <tr> <td>1</td>  <td class="separator">Goonies</td>       <td class="separator">82347</td>  <td>Disney</td>       <td>1237123</td> </tr>
+    <tr> <td>2</td>  <td class="separator">Ride Along</td>    <td class="separator">8723</td>   <td></td>             <td>87234</td>   </tr>
+    <tr> <td>3</td>  <td class="separator">Inception</td>     <td class="separator">854</td>    <td>Sony</td>         <td>9487</td>    </tr>
+    <tr> <td>4</td>  <td class="separator">Harry Potter</td>  <td class="separator">100</td>    <td>Warner Bros.</td> <td>1000</td>    </tr>
+    <tr> <td>5</td>  <td class="separator">Indiana Jones</td> <td class="separator">18</td>     <td>Disney</td>       <td>2847</td>    </tr>
+  </tbody>
+  <tfoot>
+    <tr>  <td></td>  <td class="separator"></td>              <td class="separator">92042</td>  <td></td>             <td>1337691</td> </tr>
+  </tfoot>
+</table>
 
-    RT, CPAN's request tracker (report bugs here)
-        http://rt.cpan.org/NoAuth/Bugs.html?Dist=Juno
+Still easy right? This can be auto generated without any real trouble. Lets try something a little larger
 
-    AnnoCPAN, Annotated CPAN documentation
-        http://annocpan.org/dist/Juno
+<table>
+  <thead>
+    <tr> <td class="separator" colspan="2" align="center">Identification</td><td class="separator"></td><td></td><td></td></tr>
+    <tr> <td class="separator">Id</td> <td>Name</td>          <td class="separator">Amount</td> <td>Owner</td>        <td>Cume</td>    </tr>
+  </thead>
+  <tbody>
+    <tr> <td class="separator">1</td>  <td>Goonies</td>       <td class="separator">82347</td>  <td>Disney</td>       <td>1237123</td> </tr>
+    <tr> <td class="separator">2</td>  <td>Ride Along</td>    <td class="separator">8723</td>   <td>Paramount</td>    <td>87234</td>   </tr>
+    <tr> <td class="separator">3</td>  <td>Inception</td>     <td class="separator">854</td>    <td>Sony</td>         <td>9487</td>    </tr>
+    <tr> <td class="separator">4</td>  <td>Harry Potter</td>  <td class="separator">100</td>    <td>Warner Bros.</td> <td>1000</td>    </tr>
+    <tr> <td class="separator">5</td>  <td>Indiana Jones</td> <td class="separator">18</td>     <td>Disney</td>       <td>2847</td>    </tr>
+  </tbody>
+  <tfoot>
+    <tr>  <td class="separator"></td>  <td></td>              <td class="separator">92042</td>  <td></td>             <td>1337691</td> </tr>
+  </tfoot>
+</table>
 
-    CPAN Ratings
-        http://cpanratings.perl.org/d/Juno
-
-    Search CPAN
-        http://search.cpan.org/dist/Juno/
-
-
-LICENSE AND COPYRIGHT
-
-Copyright (C) 2016 David J. Shultz
-
-This program is free software; you can redistribute it and/or modify it
-under the terms of the the Artistic License (2.0). You may obtain a
-copy of the full license at:
-
-L<http://www.perlfoundation.org/artistic_license_2_0>
-
-Any use, modification, and distribution of the Standard or Modified
-Versions is governed by this Artistic License. By using, modifying or
-distributing the Package, you accept this license. Do not use, modify,
-or distribute the Package, if you do not accept this license.
-
-If your Modified Version has been derived from a Modified Version made
-by someone other than you, you are nevertheless required to ensure that
-your Modified Version complies with the requirements of this license.
-
-This license does not grant you the right to use any trademark, service
-mark, tradename, or logo of the Copyright Holder.
-
-This license includes the non-exclusive, worldwide, free-of-charge
-patent license to make, have made, use, offer to sell, sell, import and
-otherwise transfer the Package with respect to any patent claims
-licensable by the Copyright Holder that are necessarily infringed by the
-Package. If you institute patent litigation (including a cross-claim or
-counterclaim) against any party alleging that the Package constitutes
-direct or contributory patent infringement, then this Artistic License
-to you shall terminate on the date that such litigation is filed.
-
-Disclaimer of Warranty: THE PACKAGE IS PROVIDED BY THE COPYRIGHT HOLDER
-AND CONTRIBUTORS "AS IS' AND WITHOUT ANY EXPRESS OR IMPLIED WARRANTIES.
-THE IMPLIED WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR
-PURPOSE, OR NON-INFRINGEMENT ARE DISCLAIMED TO THE EXTENT PERMITTED BY
-YOUR LOCAL LAW. UNLESS REQUIRED BY LAW, NO COPYRIGHT HOLDER OR
-CONTRIBUTOR WILL BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, OR
-CONSEQUENTIAL DAMAGES ARISING IN ANY WAY OUT OF THE USE OF THE PACKAGE,
-EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-
+Now this table is simple and easy, any can be auto generated many times over by

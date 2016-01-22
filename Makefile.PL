@@ -19,9 +19,10 @@ WriteMakefile(
     },
     PREREQ_PM => {
         'Class::XSAccessor' => 0,
-				'Modern::Perl'      => 0,
-				'List::Util'        => 0,
-				'Scalar::Util'      => 0,
+        'DBIx::Class'       => 0,
+		'List::Util'        => 0,
+		'Modern::Perl'      => 0,
+		'Scalar::Util'      => 0,
     },
     dist  => { COMPRESS => 'gzip -9f', SUFFIX => 'gz', },
     clean => { FILES => 'Juno-*' },

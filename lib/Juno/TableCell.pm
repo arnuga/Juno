@@ -27,6 +27,7 @@ use constant KEYS => [qw/
 	min_width
 	name
 	nowrap
+    row
 	row_span
 	title
 	valign
@@ -56,40 +57,6 @@ sub _minify_hash
 	delete @hash{grep { !defined($hash{$_}) } keys(%hash)};
 
 	return %hash;
-}
-
-sub make_header_cell
-{
-	my $self = shift;
-
-	delete $self->{nowrap};
-
-	return $self->is_header(1)->value($self->title);
-}
-
-sub set_header_value
-{
-	my ($self, $value) = @_;
-
-	$self->value($value);
-}
-
-sub make_footer_cell
-{
-	my ($self, $record) = @_;
-	my $field = $record->field($self->name);
-
-	return $self->value($field->value);
-}
-
-sub make_data_cell
-{
-	my ($self, $record) = @_;
-	weaken($record);
-
-	my $field = $record->field($self->name);
-
-	return $self->value($field->value)->record($record);
 }
 
 sub _get_width_of_longest_word_in_line
@@ -124,13 +91,9 @@ __END__
 
 =item new
 
-=item make_header_cell
+=item _minify_hash
 
-=item set_header_value
-
-=item make_footer_cell
-
-=item make_data_cell
+=item _get_width_of_longest_word_in_line
 
 =back
 
