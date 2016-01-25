@@ -41,10 +41,6 @@ eq_hash(
     'Verify that keys with no value are removed'
 );
 
-can_ok($cell, 'make_header_cell');
-can_ok($cell, 'make_footer_cell');
-can_ok($cell, 'make_data_cell');
-can_ok($cell, 'set_header_value');
 can_ok($cell, '_get_width_of_longest_word_in_line');
 
 done_testing;

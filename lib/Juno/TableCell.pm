@@ -125,6 +125,7 @@ __END__
 =item min_width
 =item name
 =item nowrap
+=item row
 =item row_span
 =item title
 =item valign
